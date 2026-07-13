@@ -106,7 +106,7 @@ Trained under leave‑one‑shape‑out, our barrier flags **98 %** of unsafe st
 The barrier is the technical core. For each obstacle $i$ we encode its point‑cloud into a shape embedding, evaluate a **single shared** conditional CBF on the relative coordinate, and fuse over the obstacle *set* with a smooth‑min:
 
 $$
-e_i = \operatorname*{max\text{-}pool}_{k}\;\text{MLP}(P_{i,k}) \in \mathbb{R}^{64},
+e_i = \underset{k}{\text{max-pool}}\;\text{MLP}(P_{i,k}) \in \mathbb{R}^{64},
 \qquad
 b_i(x) = \text{CBF}\!\left(\tfrac{x-c_i}{\sigma},\, e_i\right),
 \qquad
