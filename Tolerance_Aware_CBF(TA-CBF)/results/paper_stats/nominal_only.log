@@ -1,0 +1,179 @@
+/home/stanny/.local/lib/python3.10/site-packages/matplotlib/projections/__init__.py:63: UserWarning: Unable to import Axes3D. This may be due to multiple versions of Matplotlib being installed (e.g. as a system package and as a pip package). As a result, the 3D projection is not available.
+  warnings.warn("Unable to import Axes3D. This may be due to multiple versions of "
+[Model] Loaded ← /home/stanny/franka_ros2_ws/src/Tolerance_Aware_CBF(TA-CBF)/src/../checkpoints/final_model.pt
+
+[NOMINAL] 30 rollouts from perturbed starts (radius 1.8 cm)
+Polishing not needed - no active set detected at optimal point
+   1/30  reached=True  pen=0  len=12.8cm  t=6.30s  clear=15.8mm  dev=10.9mm
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+   2/30  reached=True  pen=0  len=13.2cm  t=6.30s  clear=16.1mm  dev=12.0mm
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+   3/30  reached=True  pen=0  len=15.2cm  t=6.30s  clear=16.2mm  dev=24.0mm
+   4/30  reached=True  pen=0  len=11.0cm  t=6.30s  clear=15.5mm  dev=8.6mm
+   5/30  reached=True  pen=0  len=12.0cm  t=6.30s  clear=15.6mm  dev=10.7mm
+   6/30  reached=True  pen=0  len=11.8cm  t=6.30s  clear=15.3mm  dev=10.7mm
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+   7/30  reached=True  pen=0  len=13.8cm  t=6.30s  clear=16.3mm  dev=21.2mm
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+   8/30  reached=True  pen=0  len=13.7cm  t=6.30s  clear=16.5mm  dev=21.2mm
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+   9/30  reached=True  pen=0  len=13.4cm  t=6.30s  clear=16.2mm  dev=14.3mm
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+  10/30  reached=True  pen=0  len=11.9cm  t=6.30s  clear=16.3mm  dev=13.8mm
+Polishing not needed - no active set detected at optimal point
+  11/30  reached=True  pen=0  len=13.5cm  t=6.30s  clear=15.8mm  dev=10.7mm
+  12/30  reached=True  pen=0  len=15.0cm  t=6.30s  clear=16.1mm  dev=21.7mm
+  13/30  reached=True  pen=0  len=12.0cm  t=6.30s  clear=15.8mm  dev=11.1mm
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+  14/30  reached=True  pen=0  len=12.9cm  t=6.30s  clear=16.2mm  dev=12.0mm
+  15/30  reached=True  pen=0  len=10.3cm  t=6.30s  clear=15.7mm  dev=8.6mm
+  16/30  reached=True  pen=0  len=12.0cm  t=6.30s  clear=15.8mm  dev=10.8mm
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+  17/30  reached=True  pen=0  len=12.7cm  t=6.30s  clear=16.2mm  dev=12.3mm
+Polishing not needed - no active set detected at optimal point
+  18/30  reached=True  pen=0  len=13.5cm  t=6.30s  clear=15.4mm  dev=15.4mm
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+  19/30  reached=True  pen=0  len=13.3cm  t=6.30s  clear=16.4mm  dev=12.7mm
+  20/30  reached=True  pen=0  len=12.1cm  t=6.30s  clear=15.3mm  dev=13.1mm
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+  21/30  reached=True  pen=0  len=12.4cm  t=6.30s  clear=16.4mm  dev=16.9mm
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+  22/30  reached=True  pen=0  len=13.1cm  t=6.30s  clear=16.4mm  dev=12.8mm
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+  23/30  reached=True  pen=0  len=13.1cm  t=6.30s  clear=16.1mm  dev=11.7mm
+Polishing not needed - no active set detected at optimal point
+  24/30  reached=True  pen=0  len=12.4cm  t=6.30s  clear=15.3mm  dev=14.6mm
+Polishing not needed - no active set detected at optimal point
+  25/30  reached=True  pen=0  len=13.3cm  t=6.30s  clear=15.5mm  dev=11.0mm
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+  26/30  reached=True  pen=0  len=13.5cm  t=6.30s  clear=15.3mm  dev=19.2mm
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+  27/30  reached=True  pen=0  len=13.0cm  t=6.30s  clear=16.3mm  dev=14.0mm
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+/home/stanny/.local/lib/python3.10/site-packages/numpy/_core/fromnumeric.py:3860: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/home/stanny/.local/lib/python3.10/site-packages/numpy/_core/_methods.py:145: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+/home/stanny/franka_ros2_ws/src/Tolerance_Aware_CBF(TA-CBF)/src/paper_stats.py:62: RuntimeWarning: Mean of empty slice.
+  return dict(mean=float(a.mean()), std=float(a.std()),
+/home/stanny/.local/lib/python3.10/site-packages/numpy/_core/_methods.py:223: RuntimeWarning: Degrees of freedom <= 0 for slice
+  ret = _var(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/home/stanny/.local/lib/python3.10/site-packages/numpy/_core/_methods.py:181: RuntimeWarning: invalid value encountered in divide
+  arrmean = um.true_divide(arrmean, div, out=arrmean,
+/home/stanny/.local/lib/python3.10/site-packages/numpy/_core/_methods.py:215: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+  28/30  reached=True  pen=0  len=13.5cm  t=6.30s  clear=16.5mm  dev=20.9mm
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+Polishing not needed - no active set detected at optimal point
+  29/30  reached=True  pen=0  len=14.2cm  t=6.30s  clear=16.6mm  dev=13.9mm
+  30/30  reached=True  pen=0  len=12.3cm  t=6.30s  clear=15.4mm  dev=11.7mm
+  figure -> /home/stanny/franka_ros2_ws/src/Tolerance_Aware_CBF(TA-CBF)/src/../results/paper_stats/nominal_stats.png
+
+[GENERALIZATION] 0 random feasible scenes per obstacle count [3]  (guaranteed passage >= 28 mm)
+Traceback (most recent call last):
+  File "/home/stanny/franka_ros2_ws/src/Tolerance_Aware_CBF(TA-CBF)/src/paper_stats.py", line 246, in <module>
+    main()
+  File "/home/stanny/franka_ros2_ws/src/Tolerance_Aware_CBF(TA-CBF)/src/paper_stats.py", line 201, in main
+    results['generalization'], _ = run_generalization(model, ctrl, args.n_obs,
+  File "/home/stanny/franka_ros2_ws/src/Tolerance_Aware_CBF(TA-CBF)/src/paper_stats.py", line 167, in run_generalization
+    min_clear_mm=_agg([r['min_clear']*1000 for r in all_rows]),
+  File "/home/stanny/franka_ros2_ws/src/Tolerance_Aware_CBF(TA-CBF)/src/paper_stats.py", line 63, in _agg
+    min=float(a.min()), max=float(a.max()), n=int(a.size))
+  File "/home/stanny/.local/lib/python3.10/site-packages/numpy/_core/_methods.py", line 48, in _amin
+    return umr_minimum(a, axis, None, out, keepdims, initial, where)
+ValueError: zero-size array to reduction operation minimum which has no identity

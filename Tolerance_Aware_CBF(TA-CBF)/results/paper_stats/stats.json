@@ -1,0 +1,164 @@
+{
+  "nominal": {
+    "n": 30,
+    "penetrations_total": 0,
+    "lightred_total": 0,
+    "reached": 30,
+    "path_len_cm": {
+      "mean": 12.891657223421342,
+      "std": 1.0279015105729372,
+      "min": 10.335532671283989,
+      "max": 15.228515039808766,
+      "n": 30
+    },
+    "t_goal_s": {
+      "mean": 6.2999999999999075,
+      "std": 2.6645352591003757e-15,
+      "min": 6.29999999999991,
+      "max": 6.29999999999991,
+      "n": 30
+    },
+    "min_clear_mm": {
+      "mean": 15.94482958316803,
+      "std": 0.4116066613794226,
+      "min": 15.30195027589798,
+      "max": 16.559161245822906,
+      "n": 30
+    },
+    "max_dev_mm": {
+      "mean": 14.074579735586076,
+      "std": 4.089182250292713,
+      "min": 8.579137438706164,
+      "max": 24.000162630628775,
+      "n": 30
+    }
+  },
+  "generalization": {
+    "per_obstacle": {
+      "3": {
+        "scenes": 12,
+        "penetrations_total": 0,
+        "reached": 3,
+        "reach_rate": 0.25,
+        "min_clear_mm": {
+          "mean": 10.999964770743532,
+          "std": 3.711379545800904e-06,
+          "min": 10.999957104000064,
+          "max": 10.999974045069242,
+          "n": 12
+        }
+      },
+      "4": {
+        "scenes": 12,
+        "penetrations_total": 0,
+        "reached": 4,
+        "reach_rate": 0.3333333333333333,
+        "min_clear_mm": {
+          "mean": 10.999965069854682,
+          "std": 3.0513404137331073e-06,
+          "min": 10.999962070363596,
+          "max": 10.999974045069242,
+          "n": 12
+        }
+      },
+      "5": {
+        "scenes": 12,
+        "penetrations_total": 0,
+        "reached": 5,
+        "reach_rate": 0.4166666666666667,
+        "min_clear_mm": {
+          "mean": 10.999967817114547,
+          "std": 6.7675650218897356e-06,
+          "min": 10.999962533365643,
+          "max": 10.999986057651311,
+          "n": 12
+        }
+      },
+      "6": {
+        "scenes": 12,
+        "penetrations_total": 0,
+        "reached": 1,
+        "reach_rate": 0.08333333333333333,
+        "min_clear_mm": {
+          "mean": 10.999963327619211,
+          "std": 2.3311428926867885e-06,
+          "min": 10.999958409854585,
+          "max": 10.999966373412512,
+          "n": 12
+        }
+      },
+      "7": {
+        "scenes": 12,
+        "penetrations_total": 0,
+        "reached": 4,
+        "reach_rate": 0.3333333333333333,
+        "min_clear_mm": {
+          "mean": 10.999967400103557,
+          "std": 6.749422649847298e-06,
+          "min": 10.999960179417412,
+          "max": 10.999987602535281,
+          "n": 12
+        }
+      },
+      "8": {
+        "scenes": 12,
+        "penetrations_total": 0,
+        "reached": 4,
+        "reach_rate": 0.3333333333333333,
+        "min_clear_mm": {
+          "mean": 10.999963168521639,
+          "std": 8.024140123694191e-06,
+          "min": 10.999938810986258,
+          "max": 10.999974820354105,
+          "n": 12
+        }
+      }
+    },
+    "overall": {
+      "scenes": 72,
+      "penetrations_total": 0,
+      "reached": 21,
+      "reach_rate": 0.2916666666666667,
+      "min_clear_mm": {
+        "mean": 10.999965258992862,
+        "std": 5.827570779441384e-06,
+        "min": 10.999938810986258,
+        "max": 10.999987602535281,
+        "n": 72
+      },
+      "max_dev_mm": {
+        "mean": 19.78549246597297,
+        "std": 7.858817401245462,
+        "min": 10.474899116175735,
+        "max": 51.972663166455675,
+        "n": 72
+      }
+    }
+  },
+  "dynamic": {
+    "translate": {
+      "penetrations": 0,
+      "buffer": 0,
+      "reached": true,
+      "steps": 939
+    },
+    "rotate": {
+      "penetrations": 0,
+      "buffer": 0,
+      "reached": true,
+      "steps": 771
+    },
+    "transrotate": {
+      "penetrations": 0,
+      "buffer": 0,
+      "reached": true,
+      "steps": 937
+    },
+    "evolve": {
+      "penetrations": 0,
+      "buffer": 0,
+      "reached": true,
+      "steps": 929
+    }
+  }
+}

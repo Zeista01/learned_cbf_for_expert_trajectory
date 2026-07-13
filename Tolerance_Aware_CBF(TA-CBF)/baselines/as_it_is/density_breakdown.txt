@@ -1,0 +1,27 @@
+=== GENERALIZATION, BACKSTOP ON: reach rate by #obstacles ===
+method                       3obs       4obs       5obs       6obs      all
+ours_ta_cbf                  0.50       0.38       0.25       0.25     0.34
+b2_fixed_pose_cbf            0.88       0.75       0.62       0.50     0.69
+b3a_oracle_sdf               0.50       0.50       0.50       0.50     0.50
+b3b_cloud_esdf               1.00       0.62       0.62       0.62     0.72
+b4_circle_cbf                0.88       0.50       0.50       0.50     0.59
+b5_cncbf_pershape            0.50       0.50       0.50       0.50     0.50
+
+=== GENERALIZATION, BACKSTOP OFF: unsafe scenes by #obstacles (learned barrier alone) ===
+method                       3obs       4obs       5obs       6obs      all
+ours_ta_cbf                2/8      2/8      2/8      2/8      8/32
+b2_fixed_pose_cbf          3/8      4/8      4/8      4/8     15/32
+b5_cncbf_pershape          0/8      0/8      0/8      0/8      0/32
+b7_global_barrier          8/8      8/8      8/8      8/8     32/32
+
+=== SAFETY (backstop ON): penetrating scenes / total ===
+  ours_ta_cbf            0/32 penetrate   min_sdf +11.0mm
+  b1_nominal_ds          0/32 penetrate   min_sdf +11.0mm
+  b1_straight_line       0/32 penetrate   min_sdf +11.0mm
+  b2_fixed_pose_cbf      0/32 penetrate   min_sdf +10.8mm
+  b3a_oracle_sdf         0/32 penetrate   min_sdf +11.7mm
+  b3b_cloud_esdf         0/32 penetrate   min_sdf +11.0mm
+  b4_circle_cbf          0/32 penetrate   min_sdf +11.0mm
+  b5_cncbf_pershape      0/32 penetrate   min_sdf +11.0mm
+  b6_apf                 0/32 penetrate   min_sdf +11.0mm
+  b7_global_barrier      0/32 penetrate   min_sdf +11.0mm

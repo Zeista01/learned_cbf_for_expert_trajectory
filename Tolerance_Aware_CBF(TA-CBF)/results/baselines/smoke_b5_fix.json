@@ -1,0 +1,204 @@
+{
+  "b5_cncbf_pershape": {
+    "nominal_backstop_off": {
+      "summary": {
+        "n_rollouts": 2,
+        "reach_rate": 0.0,
+        "unsafe_rollouts": 0,
+        "total_pen_steps": 0,
+        "min_sdf_mm": 14.926150441169739,
+        "dev_max_mm": 4.931456677632246,
+        "dev_mean_mm": 1.0333820794863564,
+        "path_len_mm": 78.54627569496606,
+        "time_s": 11.999999999999789,
+        "jerk_rms": 71.05957070455202,
+        "qp_ms_mean": 4.44503680081804,
+        "proj_rate": 0.7804166666666668,
+        "backstop_rate": 0.0,
+        "lightred_steps": 0.0
+      },
+      "rows": [
+        {
+          "reached": false,
+          "time_s": 11.999999999999789,
+          "path_len_mm": 76.54296237645076,
+          "min_sdf_mm": 14.926150441169739,
+          "pen_steps": 0,
+          "lightred_steps": 0,
+          "dev_max_mm": 1.8266862949567306,
+          "dev_mean_mm": 0.9901460943557941,
+          "qp_ms_mean": 4.2114162174781695,
+          "proj_rate": 0.78,
+          "backstop_rate": 0.0,
+          "jerk_rms": 68.01283969579961,
+          "scene": "nominal"
+        },
+        {
+          "reached": false,
+          "time_s": 11.999999999999789,
+          "path_len_mm": 80.54958901348135,
+          "min_sdf_mm": 15.00924676656723,
+          "pen_steps": 0,
+          "lightred_steps": 0,
+          "dev_max_mm": 8.036227060307763,
+          "dev_mean_mm": 1.0766180646169186,
+          "qp_ms_mean": 4.678657384157911,
+          "proj_rate": 0.7808333333333334,
+          "backstop_rate": 0.0,
+          "jerk_rms": 74.10630171330442,
+          "scene": "nominal"
+        }
+      ]
+    },
+    "nominal_backstop_on": {
+      "summary": {
+        "n_rollouts": 2,
+        "reach_rate": 0.0,
+        "unsafe_rollouts": 0,
+        "total_pen_steps": 0,
+        "min_sdf_mm": 14.926150441169739,
+        "dev_max_mm": 4.931456677632246,
+        "dev_mean_mm": 1.0333820794863564,
+        "path_len_mm": 78.54627569496606,
+        "time_s": 11.999999999999789,
+        "jerk_rms": 71.05957070455202,
+        "qp_ms_mean": 4.559281610420385,
+        "proj_rate": 0.7804166666666668,
+        "backstop_rate": 0.0,
+        "lightred_steps": 0.0
+      },
+      "rows": [
+        {
+          "reached": false,
+          "time_s": 11.999999999999789,
+          "path_len_mm": 76.54296237645076,
+          "min_sdf_mm": 14.926150441169739,
+          "pen_steps": 0,
+          "lightred_steps": 0,
+          "dev_max_mm": 1.8266862949567306,
+          "dev_mean_mm": 0.9901460943557941,
+          "qp_ms_mean": 5.064631940852753,
+          "proj_rate": 0.78,
+          "backstop_rate": 0.0,
+          "jerk_rms": 68.01283969579961,
+          "scene": "nominal"
+        },
+        {
+          "reached": false,
+          "time_s": 11.999999999999789,
+          "path_len_mm": 80.54958901348135,
+          "min_sdf_mm": 15.00924676656723,
+          "pen_steps": 0,
+          "lightred_steps": 0,
+          "dev_max_mm": 8.036227060307763,
+          "dev_mean_mm": 1.0766180646169186,
+          "qp_ms_mean": 4.053931279988016,
+          "proj_rate": 0.7808333333333334,
+          "backstop_rate": 0.0,
+          "jerk_rms": 74.10630171330442,
+          "scene": "nominal"
+        }
+      ]
+    },
+    "generalization_backstop_off": {
+      "summary": {
+        "n_rollouts": 2,
+        "reach_rate": 0.5,
+        "unsafe_rollouts": 2,
+        "total_pen_steps": 386,
+        "min_sdf_mm": -4.923747178530635,
+        "dev_max_mm": 25.26809797135573,
+        "dev_mean_mm": 11.360745997411978,
+        "path_len_mm": 130.68832644879498,
+        "time_s": 9.259999999999847,
+        "jerk_rms": 134.25343444036255,
+        "qp_ms_mean": 2.956263444701081,
+        "proj_rate": 0.324079754601227,
+        "backstop_rate": 0.0,
+        "lightred_steps": 92.5
+      },
+      "rows": [
+        {
+          "reached": true,
+          "time_s": 6.519999999999905,
+          "path_len_mm": 138.56561581035518,
+          "min_sdf_mm": -4.923747178530635,
+          "pen_steps": 193,
+          "lightred_steps": 60,
+          "dev_max_mm": 15.139284471162533,
+          "dev_mean_mm": 1.5033930909903492,
+          "qp_ms_mean": 2.5295082669141333,
+          "proj_rate": 0.09815950920245399,
+          "backstop_rate": 0.0,
+          "jerk_rms": 39.74405192162112,
+          "scene": "gen_3obs_s0"
+        },
+        {
+          "reached": false,
+          "time_s": 11.999999999999789,
+          "path_len_mm": 122.81103708723478,
+          "min_sdf_mm": -4.923747178530635,
+          "pen_steps": 193,
+          "lightred_steps": 125,
+          "dev_max_mm": 35.396911471548925,
+          "dev_mean_mm": 21.218098903833607,
+          "qp_ms_mean": 3.3830186224880285,
+          "proj_rate": 0.55,
+          "backstop_rate": 0.0,
+          "jerk_rms": 228.762816959104,
+          "scene": "gen_5obs_s0"
+        }
+      ]
+    },
+    "generalization_backstop_on": {
+      "summary": {
+        "n_rollouts": 2,
+        "reach_rate": 0.0,
+        "unsafe_rollouts": 0,
+        "total_pen_steps": 0,
+        "min_sdf_mm": 10.999963613795716,
+        "dev_max_mm": 10.132099525800516,
+        "dev_mean_mm": 9.053900938025382,
+        "path_len_mm": 469.5138380078999,
+        "time_s": 11.999999999999789,
+        "jerk_rms": 1485.1520874640737,
+        "qp_ms_mean": 3.4773065879153364,
+        "proj_rate": 0.06916666666666667,
+        "backstop_rate": 0.9816666666666667,
+        "lightred_steps": 0.0
+      },
+      "rows": [
+        {
+          "reached": false,
+          "time_s": 11.999999999999789,
+          "path_len_mm": 469.5138380078999,
+          "min_sdf_mm": 10.999963613795716,
+          "pen_steps": 0,
+          "lightred_steps": 0,
+          "dev_max_mm": 10.132099525800516,
+          "dev_mean_mm": 9.053900938025382,
+          "qp_ms_mean": 3.037046854177182,
+          "proj_rate": 0.06916666666666667,
+          "backstop_rate": 0.9816666666666667,
+          "jerk_rms": 1485.1520874640737,
+          "scene": "gen_3obs_s0"
+        },
+        {
+          "reached": false,
+          "time_s": 11.999999999999789,
+          "path_len_mm": 469.5138380078999,
+          "min_sdf_mm": 10.999963613795716,
+          "pen_steps": 0,
+          "lightred_steps": 0,
+          "dev_max_mm": 10.132099525800516,
+          "dev_mean_mm": 9.053900938025382,
+          "qp_ms_mean": 3.917566321653491,
+          "proj_rate": 0.06916666666666667,
+          "backstop_rate": 0.9816666666666667,
+          "jerk_rms": 1485.1520874640737,
+          "scene": "gen_5obs_s0"
+        }
+      ]
+    }
+  }
+}

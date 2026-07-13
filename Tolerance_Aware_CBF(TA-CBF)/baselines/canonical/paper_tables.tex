@@ -1,0 +1,43 @@
+% Auto-generated from benchmark_25mm_v2.json
+
+\begin{table}[t]
+\caption{Safety under zero-shot generalization to unseen obstacle poses (36 scenes,
+3--8 obstacles). Prior dynamical-system methods are shown in their native
+deployment (no external safety filter). All methods reproduce the demonstration
+on the nominal scene; only the barrier-filtered methods remain safe when the
+obstacles move.}
+\label{tab:gen_safety}
+\centering
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Method} & \textbf{Deploy} & \textbf{Nom.\ unsafe} & \textbf{Gen.\ unsafe} & \textbf{min SDF} \\
+\hline
+DS only (no filter) & --- & 0/10 & 36/36 & -19\,mm \\
+NODE \cite{b_node} & --- & 0/10 & 36/36 & -23\,mm \\
+S$^2$-NNDS \cite{b_s2nnds} & --- & 0/10 & 36/36 & -23\,mm \\
+CN-CBF \cite{b_cnbf} & QP & 0/10 & 0/36 & 2\,mm \\
+\hline
+\textbf{Ours (TA-CBF)} & full & 0/10 & 0/36 & 11\,mm \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\caption{Barrier pose-generalization: safety-critical false-safe rate (\% of
+truly-unsafe points the learned barrier labels safe) as the obstacle is rotated,
+averaged over five shapes and three scales. Our tolerance-aware, pose-augmented
+barrier stays flat; the non-augmented and per-obstacle prior barriers degrade.}
+\label{tab:barrier_gen}
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Rotation} & \textbf{Ours} & \textbf{Fixed-pose} & \textbf{CN-CBF \cite{b_cnbf}} \\
+\hline
+$0^\circ$   & 3.4\% & 1.2\% & 36.9\% \\
+$45^\circ$  & 3.6\% & 5.2\% & 40.9\% \\
+$90^\circ$  & 2.8\% & 6.5\% & 42.0\% \\
+$135^\circ$ & 2.7\% & 6.3\% & 40.4\% \\
+$180^\circ$ & 3.1\% & 4.9\% & 38.8\% \\
+\hline
+\end{tabular}
+\end{table}

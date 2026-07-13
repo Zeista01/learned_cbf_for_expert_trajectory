@@ -1,0 +1,42 @@
+{
+  "expA_backstop_off": {
+    "ours_augmented": {
+      "scenes": 32,
+      "penetrating_scenes": 6,
+      "penetration_rate": 0.1875,
+      "total_pen_steps": 1175,
+      "reached": 22,
+      "reach_rate": 0.6875,
+      "min_clear_mm": -16.78436538262949
+    },
+    "fixed_pose": {
+      "scenes": 32,
+      "penetrating_scenes": 17,
+      "penetration_rate": 0.53125,
+      "total_pen_steps": 627,
+      "reached": 29,
+      "reach_rate": 0.90625,
+      "min_clear_mm": -4.584216741399475
+    }
+  },
+  "expB_backstop_on": {
+    "ours_learned": {
+      "scenes": 32,
+      "penetrating_scenes": 0,
+      "penetration_rate": 0.0,
+      "total_pen_steps": 0,
+      "reached": 10,
+      "reach_rate": 0.3125,
+      "min_clear_mm": 10.999946364978687
+    },
+    "analytic_oracle": {
+      "scenes": 32,
+      "penetrating_scenes": 0,
+      "penetration_rate": 0.0,
+      "total_pen_steps": 0,
+      "reached": 15,
+      "reach_rate": 0.46875,
+      "min_clear_mm": 11.716908780472714
+    }
+  }
+}
