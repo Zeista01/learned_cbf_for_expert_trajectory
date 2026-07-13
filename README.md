@@ -1,5 +1,7 @@
 <div align="center">
 
+> **Note:** The work is in progress and the repo is subjected to change.
+
 # Learned Control Barrier Functions for Pose‑Generalizing Safe Steering from Expert Demonstrations
 
 **A learned demonstration flow + a composite neural barrier that keeps a needle out of critical tissue —
