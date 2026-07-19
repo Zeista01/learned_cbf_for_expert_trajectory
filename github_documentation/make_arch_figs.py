@@ -12,27 +12,25 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
-from matplotlib.lines import Line2D
 
 OUT = os.path.join(os.path.dirname(__file__), "architecture")
 os.makedirs(OUT, exist_ok=True)
 
 # ── palette ──────────────────────────────────────────────────────────────────
-INK   = "#1f2933"
-NAVY  = "#12324f"
-BLUE  = "#2c6fb5"
-LBLUE = "#dbe9f6"
-TEAL  = "#0f7d6b"
-LTEAL = "#d3 efe9".replace(" ", "")
-LTEAL = "#d3efe9"
-PURP  = "#6a4bb0"
-LPURP = "#e7e0f5"
-AMBER = "#c9821a"
-LAMBER= "#fbeccd"
-RED   = "#c0392b"
-LRED  = "#f7dcd8"
-GREY  = "#5b6169"
-LGREY = "#eef1f4"
+INK    = "#1f2933"
+NAVY   = "#12324f"
+BLUE   = "#2c6fb5"
+LBLUE  = "#dbe9f6"
+TEAL   = "#0f7d6b"
+LTEAL  = "#d3efe9"
+PURP   = "#6a4bb0"
+LPURP  = "#e7e0f5"
+AMBER  = "#c9821a"
+LAMBER = "#fbeccd"
+RED    = "#c0392b"
+LRED   = "#f7dcd8"
+GREY   = "#5b6169"
+LGREY  = "#eef1f4"
 
 plt.rcParams.update({
     "font.family": "DejaVu Sans",
@@ -41,43 +39,60 @@ plt.rcParams.update({
 })
 
 
-def box(ax, x, y, w, h, fc, ec, title=None, lines=None, tfs=11, lfs=8.4,
-        title_color="white", body_color=INK, round_=0.02, lw=1.4, align="center"):
+# ── layout helpers ───────────────────────────────────────────────────────────
+def rbox(ax, x, y, w, h, fc, ec, lw=1.4, r=0.015, z=3):
     p = FancyBboxPatch((x, y), w, h,
-                       boxstyle=f"round,pad=0.004,rounding_size={round_}",
-                       fc=fc, ec=ec, lw=lw, zorder=3)
+                       boxstyle=f"round,pad=0,rounding_size={r}",
+                       fc=fc, ec=ec, lw=lw, zorder=z)
     ax.add_patch(p)
-    cx = x + w / 2
-    ty = y + h - 0.052
-    if title:
-        # header band
-        ax.add_patch(FancyBboxPatch((x, y + h - 0.075), w, 0.075,
-                     boxstyle=f"round,pad=0.004,rounding_size={round_}",
-                     fc=ec, ec=ec, lw=0, zorder=4))
-        ax.text(cx, y + h - 0.038, title, ha="center", va="center",
-                fontsize=tfs, color=title_color, fontweight="bold", zorder=6)
-        ty = y + h - 0.11
-    if lines:
+    return p
+
+
+def titled_box(ax, x, y, w, h, fc, ec, title, lines=(), tfs=10, lfs=8.2,
+               th=0.07, align="center", body_color=INK, r=0.015):
+    """Rounded box with a colored header band and evenly spaced body lines."""
+    rbox(ax, x, y, w, h, fc, ec, r=r)
+    # header band (square bottom corners hidden by overlap)
+    ax.add_patch(FancyBboxPatch((x, y + h - th), w, th,
+                 boxstyle=f"round,pad=0,rounding_size={r}",
+                 fc=ec, ec=ec, lw=0, zorder=4))
+    ax.add_patch(plt.Rectangle((x, y + h - th), w, th / 2, fc=ec, ec=ec,
+                               lw=0, zorder=4))
+    ax.text(x + w / 2, y + h - th / 2, title, ha="center", va="center",
+            fontsize=tfs, color="white", fontweight="bold", zorder=6)
+    body_lines(ax, x, y, w, h - th, lines, lfs=lfs, align=align,
+               color=body_color)
+    return x + w / 2, y + h / 2
+
+
+def body_lines(ax, x, y, w, h, lines, lfs=8.2, align="center", color=INK):
+    """Evenly space `lines` inside the rectangle (x, y, w, h)."""
+    n = len(lines)
+    if n == 0:
+        return
+    step = h / n
+    for k, ln in enumerate(lines):
+        yy = y + h - (k + 0.5) * step
         if align == "center":
-            for ln in lines:
-                ax.text(cx, ty, ln, ha="center", va="top", fontsize=lfs,
-                        color=body_color, zorder=6)
-                ty -= 0.049
+            ax.text(x + w / 2, yy, ln, ha="center", va="center",
+                    fontsize=lfs, color=color, zorder=6)
         else:
-            lx = x + 0.028
-            for ln in lines:
-                ax.text(lx, ty, ln, ha="left", va="top", fontsize=lfs,
-                        color=body_color, zorder=6)
-                ty -= 0.049
-    return (cx, y + h / 2)
+            ax.text(x + 0.014, yy, ln, ha="left", va="center",
+                    fontsize=lfs, color=color, zorder=6)
 
 
-def arrow(ax, p0, p1, color=NAVY, lw=2.2, style="-|>", ls="-", rad=0.0):
-    a = FancyArrowPatch(p0, p1, arrowstyle=style, mutation_scale=18,
-                        color=color, lw=lw, linestyle=ls,
-                        connectionstyle=f"arc3,rad={rad}", zorder=2,
-                        shrinkA=2, shrinkB=2)
+def arrow(ax, p0, p1, color=NAVY, lw=2.2, style="-|>", rad=0.0):
+    a = FancyArrowPatch(p0, p1, arrowstyle=style, mutation_scale=16,
+                        color=color, lw=lw,
+                        connectionstyle=f"arc3,rad={rad}", zorder=5,
+                        shrinkA=1, shrinkB=1)
     ax.add_patch(a)
+
+
+def row_positions(x0, x1, n, gap):
+    """n equal-width boxes spanning [x0, x1] with `gap` between them."""
+    w = (x1 - x0 - (n - 1) * gap) / n
+    return [(x0 + i * (w + gap), w) for i in range(n)]
 
 
 def new_ax(w, h):
@@ -89,232 +104,335 @@ def new_ax(w, h):
 
 def save(fig, name):
     path = os.path.join(OUT, name)
-    fig.savefig(path, dpi=200, bbox_inches="tight", facecolor="white", pad_inches=0.12)
+    fig.savefig(path, dpi=200, bbox_inches="tight", facecolor="white",
+                pad_inches=0.15)
     plt.close(fig)
     print("saved", path)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# 1) COMPOSITE NEURAL BARRIER  B_phi   (models.py: CompositeBarrier)
+# 1) SYSTEM PIPELINE  (end to end)
+# ══════════════════════════════════════════════════════════════════════════════
+def system_pipeline():
+    fig, ax = new_ax(14.5, 6.4)
+    ax.text(0.5, 0.965,
+            "System Overview  ·  from expert demonstrations to a pose-generalizing safe controller",
+            ha="center", va="center", fontsize=14.5, fontweight="bold", color=NAVY)
+
+    cols = row_positions(0.035, 0.965, 5, 0.026)
+
+    # ── OFFLINE band ─────────────────────────────────────────────────────────
+    rbox(ax, 0.012, 0.515, 0.976, 0.385, "#f6f8fb", "#c7d2df", lw=1.2, z=1)
+    ax.text(0.035, 0.868, "OFFLINE  ·  training", ha="left", va="center",
+            fontsize=9.5, color=BLUE, fontweight="bold")
+
+    oy, oh = 0.555, 0.27
+    specs_off = [
+        ("white", GREY, "Expert demos",
+         ["MuJoCo FR3 rollouts", r"needle-tip path $x^*(t)$",
+          "critical-tissue scenes"]),
+        (LAMBER, AMBER, "Augmentation",
+         [r"rot $[-\pi,\pi]$ · scale $[0.65,1.4]$",
+          r"translate $\pm 5\,$cm / obstacle",
+          "matched inflated-SDF labels",
+          r"$\Delta=10\,$mm tolerance buffer"]),
+        (LBLUE, BLUE, r"$f_\theta$ · flow",
+         ["progress-conditioned DS",
+          r"$\dot x = v(\tilde x,s)+K(x_{\mathrm{ref}}(s)-x)$",
+          r"$[3{+}1]{\to}128{\to}128{\to}128{\to}3$"]),
+        (LGREY, GREY, r"$V_\theta$ · CLF",
+         [r"$V(e)=\|e\|^2(1+\delta\,\mathrm{corr})$",
+          r"$=0$ on demo path",
+          "Softplus correction"]),
+        (LPURP, PURP, r"$B_\phi$ · composite CBF",
+         [r"PointNet enc $\to$ shared CBF",
+          "smooth-min over obstacle set",
+          "learned, shape-independent"]),
+    ]
+    for (xx, ww), (fc, ec, ti, ls) in zip(cols, specs_off):
+        titled_box(ax, xx, oy, ww, oh, fc, ec, ti, ls, tfs=10.5, lfs=7.9,
+                   th=0.065)
+    ymid_off = oy + (oh - 0.065) / 2
+    for i in range(4):
+        x_r = cols[i][0] + cols[i][1]
+        x_l = cols[i + 1][0]
+        arrow(ax, (x_r, ymid_off), (x_l, ymid_off), color=BLUE, lw=2.0)
+
+    # ── offline → online ─────────────────────────────────────────────────────
+    arrow(ax, (0.5, 0.515), (0.5, 0.443), color=NAVY, lw=2.6)
+    ax.text(0.515, 0.479, r"trained  $f_\theta,\ V_\theta,\ B_\phi$",
+            ha="left", va="center", fontsize=9, color=NAVY)
+
+    # ── ONLINE band ──────────────────────────────────────────────────────────
+    rbox(ax, 0.012, 0.10, 0.976, 0.335, "#f6faf7", "#bfe0cd", lw=1.2, z=1)
+    ax.text(0.035, 0.405, "ONLINE  ·  deployment  (1 kHz)", ha="left",
+            va="center", fontsize=9.5, color=TEAL, fontweight="bold")
+
+    ny, nh = 0.135, 0.235
+    specs_on = [
+        ("white", GREY, "state $x$",
+         ["needle-tip position", "from sim / FR3"]),
+        (LAMBER, AMBER, "guidance $g$",
+         ["tangential go-around", r"$g \perp \nabla B$"]),
+        (LBLUE, BLUE, "CLF–CBF QP",
+         ["OSQP, per step", r"$\min\|u\|^2+\lambda\varepsilon^2$"]),
+        (LPURP, PURP, "project_safe",
+         ["discrete-step guard", "on learned $B$"]),
+        (LRED, RED, "analytic backstop",
+         [r"exact sdf $\geq 11\,$mm", "hard guarantee"]),
+    ]
+    for (xx, ww), (fc, ec, ti, ls) in zip(cols, specs_on):
+        titled_box(ax, xx, ny, ww, nh, fc, ec, ti, ls, tfs=10.5, lfs=8.2,
+                   th=0.062)
+    ymid_on = ny + (nh - 0.062) / 2
+    for i in range(4):
+        x_r = cols[i][0] + cols[i][1]
+        x_l = cols[i + 1][0]
+        arrow(ax, (x_r, ymid_on), (x_l, ymid_on), color=TEAL, lw=2.0)
+
+    # ── output bar ───────────────────────────────────────────────────────────
+    x_last = cols[4][0] + cols[4][1] / 2
+    arrow(ax, (x_last, ny), (x_last, 0.072), color=TEAL, lw=2.2)
+    rbox(ax, 0.012, 0.008, 0.976, 0.062, NAVY, NAVY, r=0.012)
+    ax.text(0.5, 0.039,
+            r"safe velocity  $\dot x = f_\theta(x,s) + u$   →   damped-LS Jacobian IK   →   joint commands",
+            ha="center", va="center", fontsize=9.5, color="white",
+            fontweight="bold")
+    save(fig, "system_pipeline.png")
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# 2) COMPOSITE NEURAL BARRIER  B_phi   (models.py: CompositeBarrier)
 # ══════════════════════════════════════════════════════════════════════════════
 def composite_barrier():
-    fig, ax = new_ax(13.5, 7.2)
-    ax.text(0.5, 0.975, r"Learned Composite Neural Barrier  $B_\phi(x)$",
-            ha="center", va="center", fontsize=16, fontweight="bold", color=NAVY)
-    ax.text(0.5, 0.935,
-            "permutation-invariant set encoder  •  one shared conditional CBF  •  smooth-min fusion  →  any number of obstacles, any shape",
-            ha="center", va="center", fontsize=9.3, color=GREY, style="italic")
+    fig, ax = new_ax(14.0, 7.6)
+    ax.text(0.5, 0.972, r"Learned Composite Neural Barrier  $B_\phi(x)$",
+            ha="center", va="center", fontsize=16, fontweight="bold",
+            color=NAVY)
+    ax.text(0.5, 0.928,
+            "permutation-invariant set encoder  •  one shared conditional CBF  •  smooth-min fusion",
+            ha="center", va="center", fontsize=9.5, color=GREY, style="italic")
+
+    P_Y, P_H, P_TH = 0.115, 0.775, 0.062
+    panels = row_positions(0.025, 0.975, 3, 0.05)
 
     # ---- PART A : ObstacleEncoder (PointNet) ----
-    box(ax, 0.02, 0.10, 0.30, 0.78, LBLUE, BLUE,
-        title="A  ·  ObstacleEncoder  (PointNet)")
-    box(ax, 0.045, 0.735, 0.25, 0.078, "white", BLUE, lines=None)
-    ax.text(0.17, 0.786, r"cloud  $P \in \mathbb{R}^{K\times 2}$", ha="center", va="center", fontsize=10, color=INK)
-    ax.text(0.17, 0.758, "K interior pts, centered at centroid $c_i$", ha="center", va="center", fontsize=7.6, color=GREY)
-    ax.text(0.17, 0.706, "per-point MLP  (shared over K points)", ha="center", va="center", fontsize=8, color=NAVY, style="italic")
+    (ax_x, ax_w) = panels[0]
+    titled_box(ax, ax_x, P_Y, ax_w, P_H, LBLUE, BLUE,
+               "A · ObstacleEncoder  (PointNet)", tfs=10.5, th=P_TH)
+    ia_x, ia_w = ax_x + 0.025, ax_w - 0.05
+    cxA = ax_x + ax_w / 2
+
+    rbox(ax, ia_x, 0.715, ia_w, 0.095, "white", BLUE)
+    body_lines(ax, ia_x, 0.715, ia_w, 0.095,
+               [r"point cloud  $P_i \in \mathbb{R}^{K\times 2}$",
+                r"$K$ interior pts, centered at $c_i$"], lfs=8.4)
+    arrow(ax, (cxA, 0.715), (cxA, 0.688), color=BLUE, lw=1.6)
+    ax.text(cxA, 0.669, "shared per-point MLP", ha="center", va="center",
+            fontsize=8.2, color=NAVY, style="italic")
     for j, txt in enumerate(["Linear(2 → 128) + ReLU",
                              "Linear(128 → 128) + ReLU",
                              "Linear(128 → 64)"]):
-        yy = 0.625 - j * 0.073
-        box(ax, 0.055, yy, 0.23, 0.058, "white", BLUE)
-        ax.text(0.17, yy + 0.029, txt, ha="center", va="center", fontsize=8.4, color=INK)
-    ax.text(0.17, 0.383, "feature map  $(K, 64)$", ha="center", va="center", fontsize=8.2, color=GREY)
-    box(ax, 0.055, 0.29, 0.23, 0.066, NAVY, NAVY)
-    ax.text(0.17, 0.323, "Max-Pool over K", ha="center", va="center", fontsize=9.6, color="white", fontweight="bold")
-    box(ax, 0.055, 0.135, 0.23, 0.11, "#eaf2fb", BLUE)
-    ax.text(0.17, 0.207, r"$e_i \in \mathbb{R}^{64}$", ha="center", va="center", fontsize=11, color=NAVY, fontweight="bold")
-    ax.text(0.17, 0.168, "shape embedding\n(encodes rotation + scale)", ha="center", va="center", fontsize=7.4, color=GREY)
-    # vertical flow arrows in A
-    for y0, y1 in [(0.625, 0.594), (0.552, 0.521), (0.29, 0.245)]:
-        arrow(ax, (0.17, y0), (0.17, y1), color=BLUE, lw=1.6)
+        yy = 0.583 - j * 0.073
+        rbox(ax, ia_x, yy, ia_w, 0.052, "white", BLUE)
+        ax.text(cxA, yy + 0.026, txt, ha="center", va="center",
+                fontsize=8.4, color=INK, zorder=6)
+        if j:
+            arrow(ax, (cxA, yy + 0.073), (cxA, yy + 0.052 + 0.001),
+                  color=BLUE, lw=1.5)
+    arrow(ax, (cxA, 0.437), (cxA, 0.405), color=BLUE, lw=1.6)
+    ax.text(cxA, 0.386, r"feature map  $(K,\,64)$", ha="center", va="center",
+            fontsize=8.2, color=GREY)
+    rbox(ax, ia_x, 0.30, ia_w, 0.062, NAVY, NAVY)
+    ax.text(cxA, 0.331, "Max-Pool over K", ha="center", va="center",
+            fontsize=9.6, color="white", fontweight="bold", zorder=6)
+    arrow(ax, (cxA, 0.30), (cxA, 0.272), color=BLUE, lw=1.6)
+    rbox(ax, ia_x, 0.155, ia_w, 0.115, "#eaf2fb", BLUE)
+    body_lines(ax, ia_x, 0.155, ia_w, 0.115,
+               [r"$e_i \in \mathbb{R}^{64}$", "shape embedding",
+                "(encodes rotation + scale)"], lfs=8.0)
+    ax.texts[-3].set_fontsize(11); ax.texts[-3].set_color(NAVY)
+    ax.texts[-3].set_fontweight("bold")
+    ax.texts[-2].set_color(GREY); ax.texts[-1].set_color(GREY)
 
     # ---- PART B : ConditionalObstacleCBF ----
-    box(ax, 0.355, 0.10, 0.30, 0.78, LPURP, PURP,
-        title="B  ·  ConditionalObstacleCBF  (shared)")
-    box(ax, 0.378, 0.70, 0.115, 0.088, "white", PURP)
-    ax.text(0.4355, 0.744, r"$x_{\mathrm{rel}}=\frac{x-c_i}{\sigma}$", ha="center", va="center", fontsize=9.5, color=INK)
-    ax.text(0.4355, 0.715, r"$\in \mathbb{R}^{3}$", ha="center", va="center", fontsize=8, color=GREY)
-    box(ax, 0.515, 0.70, 0.115, 0.088, "white", PURP)
-    ax.text(0.5725, 0.744, r"$e_i$  (Part A)", ha="center", va="center", fontsize=9.5, color=INK)
-    ax.text(0.5725, 0.715, r"$\in \mathbb{R}^{64}$", ha="center", va="center", fontsize=8, color=GREY)
-    box(ax, 0.40, 0.612, 0.21, 0.058, "#efe9fa", PURP)
-    ax.text(0.505, 0.641, r"concat  $\rightarrow\ \mathbb{R}^{67}$", ha="center", va="center", fontsize=9, color=NAVY, fontweight="bold")
+    (bx_x, bx_w) = panels[1]
+    titled_box(ax, bx_x, P_Y, bx_w, P_H, LPURP, PURP,
+               "B · ConditionalObstacleCBF  (shared)", tfs=10.5, th=P_TH)
+    ib_x, ib_w = bx_x + 0.025, bx_w - 0.05
+    cxB = bx_x + bx_w / 2
+    half = (ib_w - 0.014) / 2
+
+    rbox(ax, ib_x, 0.70, half, 0.11, "white", PURP)
+    body_lines(ax, ib_x, 0.70, half, 0.11,
+               [r"$x_{\mathrm{rel}}=\frac{x-c_i}{\sigma}$",
+                r"$\in \mathbb{R}^{3}$"], lfs=8.6)
+    rbox(ax, ib_x + half + 0.014, 0.70, half, 0.11, "white", PURP)
+    body_lines(ax, ib_x + half + 0.014, 0.70, half, 0.11,
+               [r"$e_i$  (from A)", r"$\in \mathbb{R}^{64}$"], lfs=8.6)
+    arrow(ax, (ib_x + half / 2, 0.70), (cxB - 0.02, 0.664), color=PURP, lw=1.5)
+    arrow(ax, (ib_x + half + 0.014 + half / 2, 0.70), (cxB + 0.02, 0.664),
+          color=PURP, lw=1.5)
+
+    rbox(ax, ib_x, 0.61, ib_w, 0.052, "#efe9fa", PURP)
+    ax.text(cxB, 0.636, r"concat  →  $\mathbb{R}^{67}$", ha="center",
+            va="center", fontsize=9, color=NAVY, fontweight="bold", zorder=6)
     for j, txt in enumerate(["Linear(67 → 256) + Tanh",
                              "Linear(256 → 256) + Tanh",
                              "Linear(256 → 256) + Tanh",
                              "Linear(256 → 1)"]):
-        yy = 0.535 - j * 0.072
+        yy = 0.533 - j * 0.07
         fc = "#efe9fa" if j < 3 else "#c9b8ec"
-        box(ax, 0.40, yy, 0.21, 0.055, fc, PURP)
-        ax.text(0.505, yy + 0.0275, txt, ha="center", va="center", fontsize=8.3, color=INK)
-    box(ax, 0.40, 0.135, 0.21, 0.085, "#e5dcf6", PURP)
-    ax.text(0.505, 0.191, r"$b_i(x) \in \mathbb{R}$", ha="center", va="center", fontsize=11, color=PURP, fontweight="bold")
-    ax.text(0.505, 0.153, r"$>0$ outside obstacle  •  $<0$ inside", ha="center", va="center", fontsize=7.6, color=GREY)
-    arrow(ax, (0.4355, 0.70), (0.47, 0.67), color=PURP, lw=1.5)
-    arrow(ax, (0.5725, 0.70), (0.54, 0.67), color=PURP, lw=1.5)
-    for y0, y1 in [(0.612, 0.59), (0.535, 0.463), (0.463, 0.391), (0.391, 0.319), (0.319, 0.22)]:
-        arrow(ax, (0.505, y0), (0.505, y1), color=PURP, lw=1.6)
+        rbox(ax, ib_x, yy, ib_w, 0.05, fc, PURP)
+        ax.text(cxB, yy + 0.025, txt, ha="center", va="center",
+                fontsize=8.4, color=INK, zorder=6)
+        y_above = 0.61 if j == 0 else 0.533 - (j - 1) * 0.07
+        arrow(ax, (cxB, y_above), (cxB, yy + 0.05 + 0.001), color=PURP,
+              lw=1.5)
+    arrow(ax, (cxB, 0.323), (cxB, 0.272), color=PURP, lw=1.6)
+    rbox(ax, ib_x, 0.155, ib_w, 0.115, "#e5dcf6", PURP)
+    body_lines(ax, ib_x, 0.155, ib_w, 0.115,
+               [r"$b_i(x) \in \mathbb{R}$",
+                r"$>0$ outside  ·  $<0$ inside"], lfs=8.2)
+    ax.texts[-2].set_fontsize(11); ax.texts[-2].set_color(PURP)
+    ax.texts[-2].set_fontweight("bold")
+    ax.texts[-1].set_color(GREY)
 
     # ---- PART C : Smooth-Min fusion ----
-    box(ax, 0.69, 0.10, 0.29, 0.78, LTEAL, TEAL,
-        title="C  ·  Smooth-Min Fusion")
-    ax.text(0.835, 0.79, "for each obstacle $i$: run A + B  →  $b_i(x)$", ha="center", va="center",
-            fontsize=8.2, color=NAVY, style="italic")
-    for j in range(3):
-        yy = 0.70 - j * 0.052
-        box(ax, 0.72, yy, 0.23, 0.044, "#e6f4f0", TEAL)
-        lbl = [r"$b_1(x)$", r"$b_2(x)$", r"$b_M(x)$"][j]
-        if j == 2:
-            ax.text(0.835, 0.622 + 0.017, r"$\vdots$", ha="center", va="center", fontsize=11, color=TEAL)
-        ax.text(0.835, yy + 0.022, lbl, ha="center", va="center", fontsize=9.2, color=INK)
-    box(ax, 0.72, 0.415, 0.23, 0.12, "#0f7d6b", TEAL)
-    ax.text(0.835, 0.505, "Smooth-Min   (CN-CBF Eq. 18)", ha="center", va="center", fontsize=8.6, color="white", fontweight="bold")
-    ax.text(0.835, 0.462, r"$B(x)=-\frac{1}{\beta}\,\log\!\sum_i e^{-\beta\,b_i(x)}$",
-            ha="center", va="center", fontsize=11.5, color="white")
-    ax.text(0.835, 0.428, r"$\beta=1000$  •  under-approx of $\min_i b_i$", ha="center", va="center", fontsize=7.4, color="#d7f0ea")
-    box(ax, 0.72, 0.23, 0.23, 0.10, "#e6f4f0", TEAL)
-    ax.text(0.835, 0.297, r"$B(x) \in \mathbb{R}$", ha="center", va="center", fontsize=12.5, color=TEAL, fontweight="bold")
-    ax.text(0.835, 0.256, "composite barrier over the obstacle SET", ha="center", va="center", fontsize=7.3, color=GREY)
-    box(ax, 0.72, 0.135, 0.23, 0.072, "#fbeccd", AMBER)
-    ax.text(0.835, 0.185, "trained via inflated-SDF regression", ha="center", va="center", fontsize=7.8, color="#7a520f")
-    ax.text(0.835, 0.156, r"+ pose / scale / translation augmentation", ha="center", va="center", fontsize=7.8, color="#7a520f")
-    arrow(ax, (0.835, 0.598), (0.835, 0.535), color=TEAL, lw=1.7)
-    arrow(ax, (0.835, 0.415), (0.835, 0.33), color=TEAL, lw=1.7)
-    arrow(ax, (0.835, 0.23), (0.835, 0.207), color=AMBER, lw=1.5)
+    (cx_x, cx_w) = panels[2]
+    titled_box(ax, cx_x, P_Y, cx_w, P_H, LTEAL, TEAL,
+               "C · Smooth-Min Fusion", tfs=10.5, th=P_TH)
+    ic_x, ic_w = cx_x + 0.025, cx_w - 0.05
+    cxC = cx_x + cx_w / 2
 
-    # inter-part arrows
-    arrow(ax, (0.29, 0.19), (0.515, 0.744), color=BLUE, lw=1.8, rad=-0.18, style="-|>")
-    arrow(ax, (0.61, 0.19), (0.72, 0.19), color=PURP, lw=1.9)
-    ax.text(0.665, 0.205, "×M", ha="center", va="bottom", fontsize=8.5, color=PURP, fontweight="bold")
+    ax.text(cxC, 0.79, r"run A + B for every obstacle $i$", ha="center",
+            va="center", fontsize=8.4, color=NAVY, style="italic")
+    for j, (yy, lbl) in enumerate([(0.712, r"$b_1(x)$"),
+                                   (0.655, r"$b_2(x)$"),
+                                   (0.556, r"$b_M(x)$")]):
+        rbox(ax, ic_x, yy, ic_w, 0.045, "#e6f4f0", TEAL)
+        ax.text(cxC, yy + 0.0225, lbl, ha="center", va="center",
+                fontsize=9.2, color=INK, zorder=6)
+    ax.text(cxC, 0.627, r"$\vdots$", ha="center", va="center", fontsize=12,
+            color=TEAL)
+    arrow(ax, (cxC, 0.556), (cxC, 0.522), color=TEAL, lw=1.7)
 
-    # footer
-    ax.add_patch(FancyBboxPatch((0.02, 0.015), 0.96, 0.058, boxstyle="round,pad=0.004,rounding_size=0.02",
-                fc=NAVY, ec=NAVY, zorder=3))
-    ax.text(0.5, 0.044,
-            "data flow:   cloud $P_i$  →[A]→  $e_i$  →[B]→  $b_i(x)$   for all $i$,    then    "
-            "$\\{b_i\\}$  →[C]→  $B(x)$          input dim to B  =  3 ($x_{\\mathrm{rel}}$) + 64 ($e_i$)  =  67",
-            ha="center", va="center", fontsize=8.6, color="white")
+    rbox(ax, ic_x, 0.385, ic_w, 0.135, TEAL, TEAL)
+    body_lines(ax, ic_x, 0.385, ic_w, 0.135,
+               ["Smooth-Min  (CN-CBF Eq. 18)",
+                r"$B(x)=-\frac{1}{\beta}\log\sum_i e^{-\beta\,b_i(x)}$",
+                r"$\beta=1000$ · under-approx. of $\min_i b_i$"],
+               lfs=7.8, color="white")
+    ax.texts[-3].set_fontweight("bold")
+    ax.texts[-2].set_fontsize(11)
+    ax.texts[-1].set_color("#d7f0ea")
+    arrow(ax, (cxC, 0.385), (cxC, 0.352), color=TEAL, lw=1.7)
+
+    rbox(ax, ic_x, 0.25, ic_w, 0.10, "#e6f4f0", TEAL)
+    body_lines(ax, ic_x, 0.25, ic_w, 0.10,
+               [r"$B(x) \in \mathbb{R}$",
+                "composite barrier over the obstacle set"], lfs=7.8)
+    ax.texts[-2].set_fontsize(12); ax.texts[-2].set_color(TEAL)
+    ax.texts[-2].set_fontweight("bold")
+    ax.texts[-1].set_color(GREY)
+    arrow(ax, (cxC, 0.25), (cxC, 0.225), color=AMBER, lw=1.5)
+    rbox(ax, ic_x, 0.145, ic_w, 0.078, LAMBER, AMBER)
+    body_lines(ax, ic_x, 0.145, ic_w, 0.078,
+               ["trained via inflated-SDF regression",
+                "+ pose / scale / translation augmentation"],
+               lfs=7.8, color="#7a520f")
+
+    # ---- panel-to-panel flow arrows ----
+    y_flow = 0.2125          # aligned with the e_i / b_i output boxes
+    arrow(ax, (ia_x + ia_w, y_flow), (bx_x, y_flow), color=NAVY, lw=2.4)
+    ax.text((ia_x + ia_w + bx_x) / 2, y_flow + 0.032, r"$e_i$",
+            ha="center", va="center", fontsize=10, color=NAVY,
+            fontweight="bold")
+    arrow(ax, (ib_x + ib_w, y_flow), (cx_x, y_flow), color=NAVY, lw=2.4)
+    ax.text((ib_x + ib_w + cx_x) / 2, y_flow + 0.032, r"$\times M$",
+            ha="center", va="center", fontsize=10, color=NAVY,
+            fontweight="bold")
+
+    # ---- footer ----
+    rbox(ax, 0.025, 0.012, 0.95, 0.062, NAVY, NAVY, r=0.012)
+    ax.text(0.5, 0.043,
+            r"data flow:   cloud $P_i$ →[A]→ $e_i$ →[B]→ $b_i(x)$  for all $i$,  then  $\{b_i\}$ →[C]→ $B(x)$"
+            r"        ·        input dim to B  =  3 ($x_{\mathrm{rel}}$) + 64 ($e_i$)  =  67",
+            ha="center", va="center", fontsize=8.8, color="white")
     save(fig, "composite_barrier.png")
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# 2) ONLINE CONTROLLER   (cbf_qp.py: BPCBFController.solve + project_safe + filter)
+# 3) ONLINE CONTROLLER   (cbf_qp.py: BPCBFController.solve + project_safe + filter)
 # ══════════════════════════════════════════════════════════════════════════════
 def online_controller():
-    fig, ax = new_ax(14.5, 5.2)
-    ax.text(0.5, 0.955, "Online Safety Filter  ·  runs every control step  (cbf_qp.py)",
-            ha="center", va="center", fontsize=15, fontweight="bold", color=NAVY)
+    fig, ax = new_ax(14.5, 5.4)
+    ax.text(0.5, 0.945,
+            "Online Safety Filter  ·  runs every control step  (cbf_qp.py)",
+            ha="center", va="center", fontsize=15, fontweight="bold",
+            color=NAVY)
 
-    y, h = 0.24, 0.52
-    # state
-    box(ax, 0.008, 0.38, 0.11, 0.26, LGREY, GREY, round_=0.03)
-    ax.text(0.063, 0.545, "current\nstate", ha="center", va="center", fontsize=9.5, color=INK, fontweight="bold")
-    ax.text(0.063, 0.45, r"$x \in \mathbb{R}^{3}$", ha="center", va="center", fontsize=10.5, color=NAVY)
+    sy, sh, th = 0.24, 0.58, 0.075
+    ymid = sy + (sh - th) / 2
 
-    # (a) guidance
-    box(ax, 0.145, y, 0.185, h, LAMBER, AMBER, title="(a) Go-Around Guidance",
-        tfs=9.6, lfs=7.8, align="left", lines=[
-        r"$n=\nabla B/\|\nabla B\|$  (normal)",
-        r"$t=(-n_y,\,n_x)$  (tangent)",
-        r"flip $t$ if $t\!\cdot\!$pref $<0$",
-        r"avoid moving-obstacle heading",
-        r"$f_{\mathrm{eff}}=f_\theta(x,s)+g$"])
+    # state box, vertically centered on the stage row
+    st_h = 0.26
+    rbox(ax, 0.018, ymid - st_h / 2, 0.115, st_h, LGREY, GREY, r=0.02)
+    body_lines(ax, 0.018, ymid - st_h / 2, 0.115, st_h,
+               ["current state", r"$x \in \mathbb{R}^{3}$"], lfs=9.5)
+    ax.texts[-2].set_fontweight("bold")
+    ax.texts[-1].set_fontsize(10.5); ax.texts[-1].set_color(NAVY)
 
-    # (b) QP
-    box(ax, 0.345, y, 0.235, h, LBLUE, BLUE, title="(b) CLF–CBF QP  (OSQP)",
-        tfs=9.6, lfs=7.7, align="left", lines=[
-        r"$\min_{u,\varepsilon\geq 0}\ \| u\|^2+\lambda\varepsilon^2$",
-        r"s.t. $\nabla B^{\!\top}(f_{\mathrm{eff}}\!+\!u)\geq-\gamma(B\!-\!m)$",
-        r"$\qquad$ [CBF, hard]",
-        r"$\nabla V^{\!\top}(f_{\mathrm{eff}}\!+\!u)\leq-\alpha V+\varepsilon$",
-        r"$\qquad$ [CLF, soft]",
-        r"$\gamma{=}3,\ \alpha{=}4,\ \lambda{=}0.5,\ m{=}8$mm"])
+    stages = row_positions(0.165, 0.978, 4, 0.022)
+    specs = [
+        (LAMBER, AMBER, "(a) Go-Around Guidance",
+         [r"$n=\nabla B/\|\nabla B\|$  (normal)",
+          r"$t=(-n_y,\ n_x)$  (tangent)",
+          r"flip $t$ if $t\cdot$pref $<0$",
+          "avoid moving-obstacle heading",
+          r"$f_{\mathrm{eff}} = f_\theta(x,s) + g$"]),
+        (LBLUE, BLUE, "(b) CLF–CBF QP  (OSQP)",
+         [r"$\min_{u,\,\varepsilon\geq 0}\ \|u\|^2+\lambda\varepsilon^2$",
+          r"s.t.  $\nabla B^{\top}(f_{\mathrm{eff}}{+}u)\geq-\gamma(B{-}m)$",
+          "        [CBF, hard]",
+          r"       $\nabla V^{\top}(f_{\mathrm{eff}}{+}u)\leq-\alpha V+\varepsilon$",
+          "        [CLF, soft]",
+          r"$\gamma{=}3$,  $\alpha{=}4$,  $\lambda{=}0.5$,  $m{=}8\,$mm"]),
+        (LPURP, PURP, "(c) project_safe",
+         ["discrete-step guard",
+          "on the LEARNED $B$:",
+          r"ensure $B(x+dt\,\dot x)\geq m$",
+          "bisection over step fraction",
+          "preserves direction",
+          "(go-around survives)"]),
+        (LRED, RED, "(d) Analytic SDF Filter",
+         ["HARD GUARANTEE",
+          r"ensure $\mathrm{sdf}(x+dt\,\dot x)\geq 11\,$mm",
+          "uses EXACT known geometry",
+          "scale step to largest safe",
+          "fraction (keeps direction),",
+          r"or push out along $\nabla\mathrm{sdf}$"]),
+    ]
+    for (xx, ww), (fc, ec, ti, ls) in zip(stages, specs):
+        titled_box(ax, xx, sy, ww, sh, fc, ec, ti, ls, tfs=9.8, lfs=7.8,
+                   th=th, align="left")
 
-    # (c) project_safe
-    box(ax, 0.595, y, 0.185, h, LPURP, PURP, title="(c) project_safe",
-        tfs=9.6, lfs=7.7, align="left", lines=[
-        "discrete-step guard on the",
-        "LEARNED  $B$:",
-        r"ensure $B(x+dt\,\dot x)\geq m$",
-        "bisection over step frac.",
-        "preserves direction",
-        "(tangential go-around lives)"])
+    # arrows: state -> (a) -> (b) -> (c) -> (d)
+    arrow(ax, (0.133, ymid), (stages[0][0], ymid), lw=2.4)
+    for i in range(3):
+        x_r = stages[i][0] + stages[i][1]
+        x_l = stages[i + 1][0]
+        arrow(ax, (x_r, ymid), (x_l, ymid), lw=2.4)
 
-    # (d) analytic filter
-    box(ax, 0.795, y, 0.20, h, LRED, RED, title="(d) Analytic SDF Filter",
-        tfs=9.6, lfs=7.7, align="left", lines=[
-        "HARD GUARANTEE",
-        r"ensure $\mathrm{sdf}(x+dt\,\dot x)\geq 11$mm",
-        "uses EXACT known geometry",
-        "scale step to largest safe",
-        "frac (keeps direction), or",
-        "push out along $\\nabla\\mathrm{sdf}$"])
-
-    # output
-    box(ax, 0.008, 0.02, 0.987, 0.085, NAVY, NAVY, round_=0.015)
-    ax.text(0.5, 0.062,
-            "(a)+(b)+(c) use the LEARNED $B_\\phi$   |   (d) is the EXACT analytic backstop — the hard safety guarantee   |   output  $\\dot x = f_\\theta + u$,  applied via damped-LS Jacobian IK",
-            ha="center", va="center", fontsize=8.8, color="white")
-
-    for x0, x1 in [(0.118, 0.145), (0.33, 0.345), (0.58, 0.595), (0.78, 0.795)]:
-        arrow(ax, (x0, 0.5), (x1, 0.5), color=NAVY, lw=2.4)
-    arrow(ax, (0.995, 0.24), (0.9, 0.105), color=NAVY, lw=2.2, rad=-0.2)
+    # (d) -> output bar
+    x_d = stages[3][0] + stages[3][1] / 2
+    arrow(ax, (x_d, sy), (x_d, 0.135), lw=2.4)
+    rbox(ax, 0.018, 0.025, 0.96, 0.105, NAVY, NAVY, r=0.015)
+    body_lines(ax, 0.018, 0.025, 0.96, 0.105,
+               [r"(a) + (b) + (c) use the LEARNED $B_\phi$    |    (d) is the EXACT analytic backstop — the hard safety guarantee",
+                r"output   $\dot x = f_\theta + u$,   applied via damped-LS Jacobian IK"],
+               lfs=8.8, color="white")
     save(fig, "online_controller.png")
-
-
-# ══════════════════════════════════════════════════════════════════════════════
-# 3) SYSTEM PIPELINE  (end to end)
-# ══════════════════════════════════════════════════════════════════════════════
-def system_pipeline():
-    fig, ax = new_ax(14.5, 6.4)
-    ax.text(0.5, 0.965, "System Overview  ·  from expert demonstrations to a pose-generalizing safe controller",
-            ha="center", va="center", fontsize=14.5, fontweight="bold", color=NAVY)
-
-    # OFFLINE band
-    ax.add_patch(FancyBboxPatch((0.01, 0.5), 0.98, 0.4, boxstyle="round,pad=0.004,rounding_size=0.015",
-                fc="#f6f8fb", ec="#c7d2df", lw=1.2, zorder=1))
-    ax.text(0.028, 0.865, "OFFLINE  ·  training", ha="left", va="center", fontsize=9, color=BLUE, fontweight="bold")
-
-    box(ax, 0.03, 0.56, 0.16, 0.26, "white", GREY, title="Expert demos", tfs=10, lfs=8, lines=[
-        "MuJoCo FR3 rollouts", "needle-tip path $x^*(t)$", "critical-tissue scenes"])
-    box(ax, 0.215, 0.56, 0.185, 0.26, LAMBER, AMBER, title="Augmentation", tfs=10, lfs=7.8, lines=[
-        r"rot $\in[-\pi,\pi]$, scale $[0.65,1.4]$", r"translate $\pm 5$cm / obstacle",
-        r"matched inflated-SDF labels", r"$\Delta = 10$mm tolerance buffer"])
-
-    box(ax, 0.42, 0.56, 0.165, 0.26, LBLUE, BLUE, title=r"$f_\theta$  flow", tfs=10, lfs=7.8, lines=[
-        "progress-conditioned DS", r"$\dot x=v(\tilde x,s)+K(x_{\mathrm{ref}}(s)-x)$",
-        r"[3+1]→128→128→128→3"])
-    box(ax, 0.605, 0.56, 0.165, 0.26, LGREY, GREY, title=r"$V_\theta$  CLF", tfs=10, lfs=7.8, lines=[
-        r"$V(e)=\| e\|^2(1+\delta\,\mathrm{corr})$", r"$=0$ on demo path",
-        "Softplus correction"])
-    box(ax, 0.79, 0.56, 0.20, 0.26, LPURP, PURP, title=r"$B_\phi$  composite CBF", tfs=10, lfs=7.8, lines=[
-        "PointNet enc → shared CBF", r"smooth-min over obstacle set",
-        "learned, shape-independent"])
-
-    # ONLINE band
-    ax.add_patch(FancyBboxPatch((0.01, 0.06, ), 0.98, 0.36, boxstyle="round,pad=0.004,rounding_size=0.015",
-                fc="#f6faf7", ec="#bfe0cd", lw=1.2, zorder=1))
-    ax.text(0.028, 0.39, "ONLINE  ·  deployment  (1 kHz)", ha="left", va="center", fontsize=9, color=TEAL, fontweight="bold")
-
-    box(ax, 0.03, 0.10, 0.15, 0.22, "white", GREY, title="state $x$", tfs=9.5, lfs=8, lines=["needle-tip", "from sim / FR3"])
-    box(ax, 0.205, 0.10, 0.17, 0.22, LAMBER, AMBER, title="guidance $g$", tfs=9.5, lfs=7.8, lines=["tangential go-around", r"$\perp\nabla B$"])
-    box(ax, 0.40, 0.10, 0.17, 0.22, LBLUE, BLUE, title="CLF–CBF QP", tfs=9.5, lfs=7.8, lines=["OSQP, per step", r"$\min\| u\|^2+\lambda\varepsilon^2$"])
-    box(ax, 0.595, 0.10, 0.17, 0.22, LPURP, PURP, title="project_safe", tfs=9.5, lfs=7.8, lines=["discrete-step guard", "on learned $B$"])
-    box(ax, 0.79, 0.10, 0.20, 0.22, LRED, RED, title="analytic backstop", tfs=9.5, lfs=7.8, lines=["exact sdf  ≥ 11 mm", "hard guarantee"])
-
-    # arrows within bands
-    for x0, x1 in [(0.19, 0.215), (0.585, 0.605), (0.77, 0.79)]:
-        arrow(ax, (x0, 0.69), (x1, 0.69), color=BLUE, lw=1.8)
-    arrow(ax, (0.40, 0.69), (0.42, 0.69), color=BLUE, lw=1.8)
-    for x0, x1 in [(0.18, 0.205), (0.375, 0.40), (0.57, 0.595), (0.765, 0.79)]:
-        arrow(ax, (x0, 0.21), (x1, 0.21), color=TEAL, lw=1.8)
-    # offline -> online
-    arrow(ax, (0.5, 0.5), (0.5, 0.42), color=NAVY, lw=2.6, style="-|>")
-    ax.text(0.52, 0.46, "trained $f_\\theta,V_\\theta,B_\\phi$", ha="left", va="center", fontsize=8.5, color=NAVY)
-    arrow(ax, (0.865, 0.10), (0.865, 0.02), color=TEAL, lw=2.0)
-    ax.text(0.5, 0.028, r"safe velocity  $\dot x = f_\theta(x,s) + u$   →   damped-LS Jacobian IK   →   joint commands",
-            ha="center", va="center", fontsize=9, color=NAVY, fontweight="bold")
-    save(fig, "system_pipeline.png")
 
 
 if __name__ == "__main__":
