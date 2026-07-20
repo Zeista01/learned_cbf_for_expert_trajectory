@@ -271,4 +271,6 @@ python ablations/eval_ablations.py
 
 *All diagrams in §3 are rendered directly from the code by [`make_arch_figs.py`](make_arch_figs.py) and are faithful to `src/models.py` and `src/cbf_qp.py`.*
 
+*Maintained by [Aniket Kumar Singh](https://github.com/Zeista01).*
+
 </div>
